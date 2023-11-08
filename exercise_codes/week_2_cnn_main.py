@@ -14,6 +14,16 @@ parent_path = os.path.dirname(current_path)
 sys.path.append(parent_path)
 ###########################################################
 
+############### TODO list #####################################
+#        
+#  numpy_models/commons/cnn.py      
+#  numpy_models/commons/pooling.py
+#  exercise_codes/week_2_models.py
+#        
+###############################################################
+
+
+
 #import custom models
 from exercise_codes.week_2_models import *
 
@@ -22,7 +32,7 @@ def load_data():
     (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 
     #since dataset is too big for cpu, reduce size
-    train_random_indices = random.sample(range(len(train_images)), 60000)
+    train_random_indices = random.sample(range(len(train_images)), 30000)
     test_random_indices = random.sample(range(len(test_images)), 10000)
 
     train_images = train_images[train_random_indices]
@@ -113,19 +123,15 @@ def train_np(model,image,label,test_image,test_label):
         epoch_loss = 0.0
         tqdm_batch = tqdm(range(data_len // BATCH_SIZE), desc=f"Epoch {epoch + 1}/{TOTAL_EPOCH}")
         for i, batch in enumerate(tqdm_batch):
-            start = batch * BATCH_SIZE
-            end = (batch+1) * BATCH_SIZE
+
+            ######################   edit here   ##############################
             
-            image_batch = image[start:end]
-            label_batch = label[start:end]
             
-            output = model.forward(image_batch)
-            loss = model.loss(output,label_batch)
             
-            epoch_loss+=loss
             
-            model.backward()
-            model.update_grad(LR,BATCH_SIZE)
+            
+            
+            ###################################################################
             
             tqdm_batch.set_postfix(loss=epoch_loss/(i+1))
         
@@ -142,17 +148,16 @@ def validate_np(model, image, label):
     total_correct = 0
     tqdm_batch = tqdm(range(data_len // BATCH_SIZE), desc=f"validation")
     for i, batch in enumerate(tqdm_batch):
-            start = batch * BATCH_SIZE
-            end = (batch+1) * BATCH_SIZE
+        
+        
+            ######################   edit here   ##############################
             
-            image_batch = image[start:end]
-            label_batch = label[start:end]
-                       
-            output = model.forward(image_batch)
             
-            predicted_classes = np.argmax(output, axis=1)
-            total_correct += (predicted_classes == label_batch).sum().item()
-            total_data += label_batch.shape[0]
+            
+            
+            
+            
+            ###################################################################
             
             tqdm_batch.set_postfix(accuracy=total_correct/total_data)
             
@@ -200,8 +205,8 @@ def start(train_linear_th=False, train_linear_np=False, train_cnn_th=False, trai
         print("========================")
 
 if __name__=="__main__":
-    random.seed(71)
-    TOTAL_EPOCH=10
+    random.seed(24)
+    TOTAL_EPOCH=5
     BATCH_SIZE=48
-    LR=0.01
-    start(train_linear_th=False,train_linear_np=True,train_cnn_th=False,train_cnn_np=True)
+    LR=0.001
+    start(train_linear_th=False,train_linear_np=True,train_cnn_th=False,train_cnn_np=False)
