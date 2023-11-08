@@ -14,6 +14,20 @@ parent_path = os.path.dirname(current_path)
 sys.path.append(parent_path)
 ###########################################################
 
+################## TODO LIST #############################
+#
+# numpy_models/utils/dropout.py
+# numpy_models/utils/embedding.py
+# numpy_models/utils/positional_encoding.py
+# numpy_models/utils/flatten.py
+# numpy_models/optimizers/*.py (SGD, momentum, Adam)
+#
+###########################################################
+
+
+
+
+
 #import custom models
 from exercise_codes.week_3_models import *
 

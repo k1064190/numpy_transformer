@@ -20,10 +20,11 @@ class Embedding_np:
             np.array: [# of batch, # of vocab, embedding_dim ]
         """
         
-        self.forward_input = x
-        output = self.W[x[:]]
+        ################## edit here ###################
         
-        return output
+
+        pass
+        ################################################
         
     def backward(self,d_prev:np.array) -> np.array:
         """
@@ -37,17 +38,11 @@ class Embedding_np:
             np.array: _description_
         """
         
-        #b, vocab, dim = d_prev.shape
-        #vocab_len, dim = self.W.shape
+        ################## edit here ###################
         
-        self.dW = np.zeros_like(self.W)
-        np.add.at(self.dW, self.forward_input, d_prev)
-        
-        #expanded_d_prev = np.zeros(shape=(b,vocab_len,dim))
-        #expanded_d_prev[:,self.forward_input[:]] = d_prev
-        #self.dW = np.mean(expanded_d_prev,axis=0)
 
-        return None
+        pass
+        ################################################
     
     def __call__(self,x):
         return self.forward(x)

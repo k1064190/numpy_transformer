@@ -2,13 +2,11 @@ import numpy as np
 
 def positional_encoding(max_position:int, d_model:int, min_freq:int=1e-4) -> np.array:
         
-    position = np.arange(max_position) # [max position]
-    freqs = min_freq**(2*(np.arange(d_model)//2)/d_model) # [d_model]
-    pos_enc = position.reshape(-1,1)*freqs.reshape(1,-1) #[max_position , 1] * [1, d_model] = [ max position , d_model ]
-    pos_enc[:, ::2] = np.cos(pos_enc[:, ::2])
-    pos_enc[:, 1::2] = np.sin(pos_enc[:, 1::2])
-  
-    return pos_enc
+        ################## edit here ###################
+        
+
+        pass
+        ################################################
 
 class Embedding_with_positional_encoding_np:
     def __init__(self, num_emb:int, num_dim:int) -> None:
@@ -31,10 +29,11 @@ class Embedding_with_positional_encoding_np:
             np.array: [# of batch, # of vocab, embedding_dim ]
         """
         
-        self.forward_input = x
-        output = self.W[x[:]] + self.pos_enc[ :x.shape[1]]
+        ################## edit here ###################
         
-        return output
+
+        pass
+        ################################################
         
     def backward(self,d_prev:np.array) -> np.array:
         """
@@ -47,16 +46,11 @@ class Embedding_with_positional_encoding_np:
         Returns:
             np.array: _description_
         """
+        ################## edit here ###################
         
-        b, vocab, dim = d_prev.shape
-        vocab_len, dim = self.W.shape
-        
-        expanded_d_prev = np.zeros(shape=(b,vocab_len,dim))
-        expanded_d_prev[:,self.forward_input[:]] = d_prev
 
-        self.dW = np.mean(expanded_d_prev,axis=0)
-
-        return None
+        pass
+        ################################################
     
     def __call__(self,x):
         return self.forward(x)

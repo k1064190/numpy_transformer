@@ -18,11 +18,8 @@ class SGD_np:
             have_db (bool): layer에 dW외에 db가 있는지 유무, default=True
         """
         
-        layer.W = layer.W - LR * layer.dW
+        ################## edit here ###################
         
-        if not have_db:
-            return layer
-        
-        layer.b = layer.b - LR * layer.db
-        
-        return layer
+
+        pass
+        ################################################
