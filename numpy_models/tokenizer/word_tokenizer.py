@@ -29,12 +29,11 @@ class Word_tokenizer_np:
         Returns:
             List[List[str]]: list of tokenized token list
         """
-        output_list = list()
-        for cur_list in input_list:
-            cur_list = self.clean_text(cur_list)
-            list_tokenized = cur_list.split(' ') #tokenize by blank
-            output_list.append(list_tokenized)
-        return output_list
+        ############### TODO  return tokenized output #################
+        
+        
+        pass
+        ###############################################################
     
     def clean_text(self, sentence:str) -> str:
         """
@@ -61,8 +60,11 @@ class Word_tokenizer_np:
             List[int]: list of ids
         """
         output = list()
-        for word in sentence:
-            output.append(self.vocab(word))
+        ############### TODO  fill output with ids and return #########
+        
+        
+        pass
+        ###############################################################
         return output
     
     def convert_tokens_to_ids(self, input_list: List[str], padding=True, max_length=20) -> np.array:

@@ -92,13 +92,12 @@ class RNN_np:
         """
         #repeat for max sequence length
         for input_x, layer_tanh, layer_softmax in zip(input_X, self.layers_tanh, self.layers_softmax):
-            input_tanh = np.dot(self.Wax, input_x.T) + np.dot(self.Waa, hidden) + self.b
-            hidden = layer_tanh.forward(input_tanh)
-            self.hidden_list.append(hidden)
-
-            input_softmax = np.dot(self.Wya, hidden) + self.by
-            y_pred = layer_softmax.forward(input_softmax) # (300, 1)
-            self.y_preds.append(y_pred) #add (output_dim, batch)
+            
+            ############### TODO  fill unit cell forward process ##########
+        
+        
+            pass
+            ###############################################################
 
         #    [max_len, output_dim, batch] (20, 300, 1)
         #--> [ # of batch, max length, output_dim] 으로 바꿔서 return
