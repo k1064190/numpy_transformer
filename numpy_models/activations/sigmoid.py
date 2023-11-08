@@ -14,19 +14,25 @@ class Sigmoid_np():
         Returns:
             np.array: [batch, ... ] 
         """
-        out = 1 / ( 1 + np.exp(-x) )
+        ####################### edit here ###################
+        out= 1 / ( 1 + np.exp(-x) )
+        
+        #####################################################
         
         self.output = out
         return out
     
-    def backward(self, d_prev=1):
+    def backward(self, d_prev):
         """
         backward:
             output -> d_sigmoid -> grad
         
         """
     
-        grad = d_prev * (self.output) * (1 - self.output )
+        ####################### edit here ###################
+        grad= d_prev * self.output * (1 - self.output )
+        
+        #####################################################
         
         self.grad = grad
         return self.grad
