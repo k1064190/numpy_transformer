@@ -16,10 +16,12 @@ class Relu_np():
         Returns:
             np.array: [batch, ... ] 
         """
-        self.d_zeros = x<0
-        x[self.d_zeros]=0
+        ####################### edit here ###################
         
-        self.output = x #save output
+        
+        return
+        #####################################################
+        self.output=x
         return x
     
     def backward(self, d_prev):
@@ -28,10 +30,12 @@ class Relu_np():
             output -> d_relu -> grad
         
         """
-        prev = np.ones_like(d_prev)
-        prev[self.d_zeros] = 0
-        
-        self.grad = prev * d_prev #save grad
+        ####################### edit here ###################
+    
+    
+        return
+        #####################################################
+        self.grad = output
         return self.grad
     
     def __call__(self,x):

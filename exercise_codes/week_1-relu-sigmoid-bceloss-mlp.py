@@ -9,6 +9,15 @@ parent_path = os.path.dirname(current_path)
 sys.path.append(parent_path)
 ###########################################################
 
+####### TODO LIST #########
+#
+# fill numpy_models/activations/*.py (relu, sigmoid)
+# fill numpy_models/commons/linear.py
+# fill numpy_models/losses/binay_ce.py
+#
+###########################
+
+
 from torch_models.activations.relu import Relu_th
 from numpy_models.activations.relu import Relu_np
 

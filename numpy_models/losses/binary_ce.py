@@ -19,13 +19,17 @@ class Binary_Cross_Entropy_np():
             Tensor: Scaler 
         """
 
-        output = -1 * ( target * np.log( pred + self.eps ) + (1-target) * np.log( 1-pred + self.eps ))
+        ####################### edit here ###################
+    
+    
+        return
+        #####################################################
         
         self.pred = pred
         self.target = target
         return np.mean(output, axis=None)
     
-    def backward(self, d_prev=1):
+    def backward(self,d_prev=1):
         """
         backward:
             output -> d_sigmoid -> grad
@@ -33,7 +37,11 @@ class Binary_Cross_Entropy_np():
         """
 
         #divide grad by [# of class] since we apply np.mean in forward
-        grad = (self.pred - self.target) / ( (self.pred ) * (1 - self.pred ) + self.eps ) / self.target.shape[-1]
+        ####################### edit here ###################
+    
+    
+        return
+        #####################################################
         
         self.grad = grad
         return self.grad
