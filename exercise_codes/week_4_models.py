@@ -36,23 +36,24 @@ class myModel:
         
         self.embedding = Embedding_np(len(self.tokenizer),300)
         
-        self.rnn1 = RNN_np(300,400,2)
+        self.rnn1 = RNN_np(300,400,2) 
         
         self.activation1 = Relu_np()
         self.linear1 = Linear_np(400,300)
         
         self.activation2 = Relu_np()
-        self.linear2 = Linear_np(300,len(self.tokenizer))
+        self.linear2 = Linear_np(300,len(self.tokenizer)) 
         
         self.softmax = softmax_np()
+
         
     def forward(self,x: List[str]):
         #input : [# of batch, string sentence]
         
-        #x: [# of batch, words]
+        #x: [# of batch, words] -> type(str)
         x = self.tokenizer.tokenize(x)
         
-        #x: [# of batch, max_length]
+        #x: [# of batch, max_length] -> int
         x = self.tokenizer.convert_tokens_to_ids(x, padding=True, max_length=20)
         
         #x: [# of batch, max_length, # of embedding(300)]
@@ -69,7 +70,7 @@ class myModel:
         x = self.activation2(x)
         x = self.linear2(x)
         
-        #x: [# of batch, max_length, 300] with prob
+        #x: [# of batch, max_length, len(vocab)] with prob
         x = self.softmax(x)
         
         return x
@@ -122,6 +123,8 @@ class myModel:
         
         
 
+# nn.dataset nn.dataloader
+
 class CustomDataset:
     def __init__(self, chat_list: List[str]) -> None:
         self.chat_list = chat_list
@@ -130,8 +133,8 @@ class CustomDataset:
         return len(self.chat_list) - 1
     
     def __getitem__(self,idx: int) -> Tuple[str, str]:
-        chatting_input = self.chat_list[idx]
-        chatting_output = self.chat_list[idx+1]
+        chatting_input = self.chat_list[idx] # idx
+        chatting_output = self.chat_list[idx+1] #idx+1
         
         return (chatting_input, chatting_output)
 

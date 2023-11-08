@@ -68,6 +68,7 @@ class RNN_np:
             List containing all the preditions for each input of the
             input_X list.
         """
+        
         #    [ # of batch, max length, embedding dim]
         #--> [max_len, batch, input_size] 으로 바꿔서 사용
         input_X = np.transpose(input_X, (1, 0, 2))
@@ -94,11 +95,22 @@ class RNN_np:
         for input_x, layer_tanh, layer_softmax in zip(input_X, self.layers_tanh, self.layers_softmax):
             
             ############### TODO  fill unit cell forward process ##########
-        
-        
-            pass
-            ###############################################################
+            # input_X -> [max_len, batch, input_size]
+            # input_x -> [batch, input_size]
+            temp = np.dot(self.Wax, input_x.T) + np.dot(self.Waa, hidden) + self.b 
+            # [hidden, input] * [input, batch] + [hidden, hidden] * [hidden, 1] + [hidden, 1]
+            
+            hidden = layer_tanh.forward(temp)
+            self.hidden_list.append(hidden)
+            
+            temp = np.dot(self.Wya, hidden) + self.by
+            # [out, hidden] * [hidden, 1] + [out, 1]
+            
+            y_pred = layer_softmax.forward(temp)
+            self.y_preds.append(y_pred)
 
+            ###############################################################
+             #  max_len * [out_dim, 1] -> [max_len, out_dim, 1(batch)]
         #    [max_len, output_dim, batch] (20, 300, 1)
         #--> [ # of batch, max length, output_dim] 으로 바꿔서 return
         self.y_preds = np.array(self.y_preds)

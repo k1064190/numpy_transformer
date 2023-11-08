@@ -4,7 +4,6 @@ import re
 
 from .vocab import Vocabulary
 
-
 class Word_tokenizer_np:
     """
     simple tokenizer using vocab
@@ -30,11 +29,14 @@ class Word_tokenizer_np:
             List[List[str]]: list of tokenized token list
         """
         ############### TODO  return tokenized output #################
-        
-        
-        pass
+        out = list()
+        for cur_list in input_list:
+            cur_list = self.clean_text(cur_list)
+            temp = cur_list.split(' ')
+            out.append(temp)
+        return out
         ###############################################################
-    
+        
     def clean_text(self, sentence:str) -> str:
         """
         convert all text into lowercase and remain only alphabat (for vocab hit ratio)
@@ -61,13 +63,13 @@ class Word_tokenizer_np:
         """
         output = list()
         ############### TODO  fill output with ids and return #########
-        
-        
-        pass
+        for cur in sentence:
+            temp = self.vocab(cur)
+            output.append(temp)
         ###############################################################
         return output
     
-    def convert_tokens_to_ids(self, input_list: List[str], padding=True, max_length=20) -> np.array:
+    def convert_tokens_to_ids(self, input_list: List[List[str]], padding=True, max_length=20) -> np.array:
         """
         input: [ [i, am, apple] , [i, love, apple] ]
         output: [ [1, 3, 5] , [1, 6, 5] ]

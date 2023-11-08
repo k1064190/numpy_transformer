@@ -101,7 +101,8 @@ def main():
     #inference
     print("train done! write chatting input.")
     inference(model)
-
+    
+    
 if __name__=="__main__":
     BATCH_SIZE = 1 #must use batch_size 1!!!
     TOTAL_EPOCH = 3

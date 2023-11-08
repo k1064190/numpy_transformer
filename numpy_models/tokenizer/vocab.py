@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Vocabulary:
     """simple vocab set"""
 
@@ -17,16 +18,18 @@ class Vocabulary:
         
     def add_word(self, word: str):
         ############### TODO  fill word2idx and idx2word ##############
-        
-        
-        pass
+        if word not in self.word2idx.keys():
+            self.word2idx[word] = self.idx
+            self.idx2word[self.idx] = word
+            self.idx +=1
         ###############################################################
 
     def __call__(self, word: str) -> int:
         ############### TODO  return idx of word ######################
+        if word not in self.word2idx.keys():
+            return self.word2idx["<unk>"]
         
-        
-        pass
+        return self.word2idx[word]
         ###############################################################
 
     def __len__(self):
