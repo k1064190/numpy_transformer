@@ -12,6 +12,14 @@ sys.path.append(parent_path)
 from exercise_codes.week_4_models import *
 from numpy_models.tokenizer.word_tokenizer import Word_tokenizer_np
 
+####### TODO LIST #########
+#
+# fill numpy_models/tokenizer/vocab.py
+# fill numpy_models/tokenizer/word_tokenizer.py
+# fill numpy_models/commons/rnn.py
+#
+###########################
+
 """
     download small chatting data from here
     https://www.kaggle.com/datasets/projjal1/human-conversation-training-data    
