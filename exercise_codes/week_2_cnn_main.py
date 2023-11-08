@@ -113,19 +113,21 @@ def train_np(model,image,label,test_image,test_label):
         epoch_loss = 0.0
         tqdm_batch = tqdm(range(data_len // BATCH_SIZE), desc=f"Epoch {epoch + 1}/{TOTAL_EPOCH}")
         for i, batch in enumerate(tqdm_batch):
-            start = batch * BATCH_SIZE
-            end = (batch+1) * BATCH_SIZE
+
+            ######################   edit here   ##############################
             
-            image_batch = image[start:end]
-            label_batch = label[start:end]
+            image_batch = image[i* BATCH_SIZE : (i+1) * BATCH_SIZE]
+            label_batch = label[i * BATCH_SIZE : (i+1) * BATCH_SIZE]
             
             output = model.forward(image_batch)
             loss = model.loss(output,label_batch)
             
-            epoch_loss+=loss
+            epoch_loss +=loss
             
             model.backward()
-            model.update_grad(LR,BATCH_SIZE)
+            model.update_grad(LR, BATCH_SIZE)
+            
+            ###################################################################
             
             tqdm_batch.set_postfix(loss=epoch_loss/(i+1))
         
@@ -142,6 +144,10 @@ def validate_np(model, image, label):
     total_correct = 0
     tqdm_batch = tqdm(range(data_len // BATCH_SIZE), desc=f"validation")
     for i, batch in enumerate(tqdm_batch):
+        
+        
+            ######################   edit here   ##############################
+            
             start = batch * BATCH_SIZE
             end = (batch+1) * BATCH_SIZE
             
@@ -153,6 +159,8 @@ def validate_np(model, image, label):
             predicted_classes = np.argmax(output, axis=1)
             total_correct += (predicted_classes == label_batch).sum().item()
             total_data += label_batch.shape[0]
+            
+            ###################################################################
             
             tqdm_batch.set_postfix(accuracy=total_correct/total_data)
             
@@ -200,8 +208,8 @@ def start(train_linear_th=False, train_linear_np=False, train_cnn_th=False, trai
         print("========================")
 
 if __name__=="__main__":
-    random.seed(71)
-    TOTAL_EPOCH=10
+    random.seed(24)
+    TOTAL_EPOCH=5
     BATCH_SIZE=48
-    LR=0.01
-    start(train_linear_th=False,train_linear_np=True,train_cnn_th=False,train_cnn_np=True)
+    LR=0.001
+    start(train_linear_th=False,train_linear_np=True,train_cnn_th=False,train_cnn_np=False)
