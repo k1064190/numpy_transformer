@@ -75,11 +75,13 @@ class model_Adam_np():
         d_prev = self.linear_1.backward(d_prev)
     
     def update_grad(self, learning_rate, batch_size):
-        self.linear_3 = self.optimizer.update_grad('linear_3',self.linear_3,learning_rate/batch_size,True)
-        self.linear_2 = self.optimizer.update_grad('linear_2',self.linear_2,learning_rate/batch_size,True)
-        self.linear_1 = self.optimizer.update_grad('linear_1',self.linear_1,learning_rate/batch_size,True)
         
-        self.optimizer.step()
+        ################## edit here ###################
+        self.linear_1 = self.optimizer.update_grad('layer1',self.linear_1 ,learning_rate/batch_size, have_db=True) 
+        self.linear_2 = self.optimizer.update_grad('layer2',self.linear_2 ,learning_rate/batch_size, have_db=True) 
+        self.linear_3 = self.optimizer.update_grad('layer3',self.linear_3 ,learning_rate/batch_size, have_db=True)
+        ################################################
+
 
 class model_SGD_momentum_np():
     def __init__(self, input_channel=28*28, output_channel=10) -> None:
@@ -125,10 +127,11 @@ class model_SGD_momentum_np():
         d_prev = self.linear_1.backward(d_prev)
     
     def update_grad(self, learning_rate, batch_size):
-        self.linear_3 = self.optimizer.update_grad('linear_3',self.linear_3,learning_rate/batch_size,True)
-        self.linear_2 = self.optimizer.update_grad('linear_2',self.linear_2,learning_rate/batch_size,True)
-        self.linear_1 = self.optimizer.update_grad('linear_1',self.linear_1,learning_rate/batch_size,True)
-
+        ################## edit here ###################
+        self.linear_1 = self.optimizer.update_grad('layer1',self.linear_1 ,learning_rate/batch_size, have_db=True) 
+        self.linear_2 = self.optimizer.update_grad('layer2',self.linear_2 ,learning_rate/batch_size, have_db=True) 
+        self.linear_3 = self.optimizer.update_grad('layer3',self.linear_3 ,learning_rate/batch_size, have_db=True)
+        ################################################
 class model_SGD_np():
     def __init__(self, input_channel=28*28, output_channel=10) -> None:
         
@@ -173,6 +176,8 @@ class model_SGD_np():
         d_prev = self.linear_1.backward(d_prev)
     
     def update_grad(self, learning_rate, batch_size):
-        self.linear_3 = self.optimizer.update_grad('linear_3',self.linear_3,learning_rate/batch_size,True)
-        self.linear_2 = self.optimizer.update_grad('linear_2',self.linear_2,learning_rate/batch_size,True)
-        self.linear_1 = self.optimizer.update_grad('linear_1',self.linear_1,learning_rate/batch_size,True)
+        ################## edit here ###################
+        self.linear_1 = self.optimizer.update_grad('layer1',self.linear_1 ,learning_rate/batch_size, have_db=True) 
+        self.linear_2 = self.optimizer.update_grad('layer2',self.linear_2 ,learning_rate/batch_size, have_db=True) 
+        self.linear_3 = self.optimizer.update_grad('layer3',self.linear_3 ,learning_rate/batch_size, have_db=True)      
+        ################################################

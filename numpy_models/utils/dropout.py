@@ -17,9 +17,14 @@ class Dropout_np:
             np.array: [# of batch, ... ]
             
         """
-        self.drop_mask = np.random.rand(*x) > self.drop_prob
-        x = x * self.drop_mask
-        x = x / self.drop_prob
+        ################## edit here ###################
+        
+        self.drop_mask = np.random.rand(*x) < (self.drop_prob)
+        x[self.drop_mask] = 0
+
+        x/=self.drop_prob
+        
+        ################################################
         
         return x
     
@@ -33,8 +38,12 @@ class Dropout_np:
             np.array: [# of batch, ... ]
             
         """
-        d_prev = d_prev * self.drop_mask
-        d_prev = d_prev / self.drop_prob
+        ################## edit here ###################
+        
+        d_prev[self.drop_mask] = 0
+        d_prev/=self.drop_prob
+        
+        ################################################
         
         return d_prev
     

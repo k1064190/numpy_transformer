@@ -21,29 +21,34 @@ class SGD_momentum_np:
             LR (float): Learning rate
             have_db (bool): layer에 dW외에 db가 있는지 유무, default=True
         """
+        ################## edit here ###################
         self.save_velocity(layer_name,layer,have_db)
-        
-        layer.W = layer.W + LR * self.velocity[f"{layer_name}_dW"]
-        
+
+        layer.W = layer.W + self.velocity[f"{layer_name}_W"] * LR
+
         if not have_db:
             return layer
-        
-        layer.b = layer.b + LR * self.velocity[f"{layer_name}_db"]
-        
+
+        layer.b = layer.b + self.velocity[f"{layer_name}_b"] * LR
+
         return layer
+        ################################################
 
     def save_velocity(self,layer_name, layer, have_db):
         
-        if layer_name not in self.velocity.keys():
-            self.velocity[f"{layer_name}_dW"] = -1 * layer.dW
+        ################## edit here ###################
+        
+        if f"{layer_name}_W" not in self.velocity.keys():
+            self.velocity[f"{layer_name}_W"] = 0
         else:
-            self.velocity[f"{layer_name}_dW"] = self.alpha * self.velocity[f"{layer_name}_dW"] - layer.dW
-
+            self.velocity[f"{layer_name}_W"] = self.alpha * self.velocity[f"{layer_name}_W"] - layer.dW 
         
         if not have_db:
             return
         
-        if layer_name not in self.velocity.keys():
-            self.velocity[f"{layer_name}_db"] = -1 * layer.db
+        if f"{layer_name}_b" not in self.velocity.keys():
+            self.velocity[f"{layer_name}_b"] = 0
         else:
-            self.velocity[f"{layer_name}_db"] = self.alpha * self.velocity[f"{layer_name}_db"] - layer.db
+            self.velocity[f"{layer_name}_b"] = self.alpha * self.velocity[f"{layer_name}_b"] - layer.db 
+
+        ################################################

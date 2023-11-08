@@ -15,10 +15,12 @@ class Flatten_np:
             
         """
         
+        ################## edit here ###################
         self.origin_shape = np.shape(x)
-        x = x.reshape(self.origin_shape[0], -1)
-        
+        x = x.reshape(self.origin_shape[0], -1 )
+
         return x
+        ################################################
     
     def backward(self,d_prev:np.array) -> np.array:
         """
@@ -29,10 +31,11 @@ class Flatten_np:
         Returns:
             np.array: [# of batch, a, b, c ]
         """
+        ################## edit here ###################
+        d_prev = d_prev.reshape(self.origin_shape)        
 
-        d_prev = d_prev.reshape(self.origin_shape)
-        
         return d_prev
+        ################################################
     
     def __call__(self,x):
         return self.forward(x)

@@ -29,7 +29,6 @@ class Adam_np:
         self.t = self.t + 1
     
     def update_grad(self, layer_name:str, layer, LR:float, have_db:bool):
-        
         """
 
         Args:
@@ -41,18 +40,24 @@ class Adam_np:
         self.save_velocity(layer_name,layer,have_db)
         self.save_momentum(layer_name,layer,have_db)
         
-        momentum_hat = self.momentum[f"{layer_name}_dW"] / (1 - (self.beta1 ** self.t) )
-        velocity_hat = self.velocity[f"{layer_name}_dW"] / (1 - (self.beta2 ** self.t) )
-        layer.W = layer.W - LR * momentum_hat / (np.sqrt(velocity_hat + self.eps) )
+        ################## edit here ###################
         
+        m_hat = self.momentum[f"{layer_name}_dW"] / (1 - (self.beta1**self.t))
+        v_hat = self.velocity[f"{layer_name}_dW"] / (1 - (self.beta2**self.t))
+
+        layer.W = layer.W - LR * m_hat / np.sqrt(v_hat + self.eps)
+
         if not have_db:
             return layer
         
-        momentum_hat = self.momentum[f"{layer_name}_db"] / (1 - (self.beta1 ** self.t) )
-        velocity_hat = self.velocity[f"{layer_name}_db"] / (1 - (self.beta2 ** self.t) )
-        layer.b = layer.b - LR * momentum_hat / (np.sqrt(velocity_hat + self.eps) )
-        
+        m_hat = self.momentum[f"{layer_name}_db"] / (1 - (self.beta1**self.t))
+        v_hat = self.velocity[f"{layer_name}_db"] / (1 - (self.beta2**self.t))
+
+        layer.b = layer.b - LR * m_hat / np.sqrt(v_hat + self.eps)
+
         return layer
+        ################################################
+    
 
     def save_velocity(self,layer_name, layer, have_db):
         
