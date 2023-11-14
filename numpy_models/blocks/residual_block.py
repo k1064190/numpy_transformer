@@ -6,12 +6,14 @@ class Residual_block_np:
         self.model = model
     
     def forward(self,x:np.array):
-        out = self.model(x)
-        return out + x
+        ############### edit here ###############
+        pass
+        #########################################
     
     def backward(self,d_prev):
-        d_out = self.model.backward(d_prev)
-        return d_prev - d_out
+        ############### edit here ###############
+        pass
+        #########################################
     
     def __call__(self,x):
         return self.forward(x)

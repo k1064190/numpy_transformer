@@ -4,33 +4,24 @@ class Layer_Normalization_np:
     def __init__(self, eps:float = 1e-5,):
         #input is [# of batch, feat1, feat2, ...]
         self.eps = eps
-        
-        self.define_grads_and_params()
-
-    def define_grads_and_params(self):
-        """
-        important!!!
-        define self.params and self.grads for optimizer update
-        """
-        #there are no param and grad in layernorm (maybe?)
-        self.params = None
-        self.grads = None
     
     def forward(self, x:np.array, train:bool=True):
         #x.shape = [# of batch, num_features1, num_features2, ...]
         self.x = x
         self.num_batch = x.shape[0] # [# of batch]
         
+        ################################ edit here #######################################
         #each features mu and var
-        self.feature_mu  = np.mean( x.reshape(self.num_batch,-1), axis=1 ).reshape(-1,1)  # [# of batch, 1]
-        self.feature_var =  np.var( x.reshape(self.num_batch,-1), axis=1 ).reshape(-1,1)  # [# of batch, 1]
+        self.feature_mu  = None  # [# of batch, 1]
+        self.feature_var =  None  # [# of batch, 1]
 
         #print(self.batch_mu.shape) #[# of batch, 1]
         
-        self.feature_var += self.eps
-        self.feature_std = np.sqrt(self.feature_var) #[# of batch]
-        self.x_minus_mean = x - self.feature_mu # [# of batch, # of feat] - [# of batch, 1] (broadcast)
-        self.standard_x = self.x_minus_mean / self.feature_std #[# of batch, # of feat]
+        
+        
+        
+        self.standard_x = None
+        ##################################################################################
 
         return self.standard_x #no dimension change(mayebe?)
         

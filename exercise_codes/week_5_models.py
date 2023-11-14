@@ -94,16 +94,13 @@ class model_with_batch_norm():
         batch_size = x.shape[0]
         x = x.reshape(batch_size,-1)
         
-        x = self.linear_1(x)
-        x = self.norm1(x)
-        x = self.activation_1(x)
-        
-        x = self.linear_2(x)
-        x = self.norm2(x)
-        x = self.activation_2(x)
-        
-        x = self.linear_3(x)
-        x = self.sigmoid(x)
+        ############### edit here #####################
+        #make forward pass using above 
+
+
+
+
+        ###############################################
         
         return x
     
@@ -113,17 +110,13 @@ class model_with_batch_norm():
     
     def backward(self):
         d_prev = 1
-        d_prev = self.criterion.backward(d_prev)
-        d_prev = self.sigmoid.backward(d_prev)
-        d_prev = self.linear_3.backward(d_prev)
-        
-        d_prev = self.activation_2.backward(d_prev)
-        d_prev = self.norm2.backward(d_prev)
-        d_prev = self.linear_2.backward(d_prev)
-        
-        d_prev = self.activation_1.backward(d_prev)
-        d_prev = self.norm1.backward(d_prev)
-        d_prev = self.linear_1.backward(d_prev)
+        ############### edit here #####################
+        #make backward pass using above 
+
+
+
+
+        ###############################################
     
     def update_grad(self, learning_rate, batch_size):
         self.optimizer.update_grad('linear_3',self.linear_3,learning_rate/batch_size)

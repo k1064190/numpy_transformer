@@ -43,22 +43,19 @@ class Batch_Normalization_1D_np:
         #x.shape = [# of batch, num_features]
         self.num_batch = x.shape[0] # [# of batch]
         
+        ################################## edit here ###############################
         if train:
-            self.batch_mu  = np.mean( x, axis=0 )  # [# of feat]
-            self.batch_var =  np.var( x , axis=0 ) # [# of feat]
+            self.batch_mu  = None  # [# of feat]
+            self.batch_var =  None # [# of feat]
             self.save_train_mu_var()
         else:
             self.batch_mu = self.running_batch_mu
             self.batch_var = self.running_batch_var
 
-        
-        self.batch_var += self.eps
-        self.batch_std = np.sqrt(self.batch_var) #[# of feat]
-        self.x_minus_mean = x - self.batch_mu #[# of batch, # of feat]
-        self.standard_x = self.x_minus_mean / self.batch_std #[# of batch, # of feat]
-
-        self.output = self.params['W'] * self.standard_x + self.params['b'] # [1, # of feature] * [# of batch, # of feature] + [1, # of feature]
-        # == [# of batch, # of feature]
+        #calculate batch_var/std
+        #calaulate std_x
+        #calculate output == [# of batch, # of feature]
+        ##########################################################################
         return self.output
         
     def backward(self, d_prev):
