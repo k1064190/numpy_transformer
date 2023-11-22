@@ -100,9 +100,9 @@ class Attention_np:
         """Actual computation of forward pass"""
         scale = 1 / np.sqrt(self.Q.shape[-1]) if self.scale else 1
         ############################### EDIT HERE ######################################
-        self.QK = self.Q.swapaxes(-2,-1) @ self.K  # attention scores
+        self.QK = self.Q @ self.K.swapaxes(-2, -1) * scale  # attention scores
         self.softQK = self.softmax.forward(self.QK)
-        self.VsoftQK = self.V @ self.softQK
+        self.VsoftQK = self.softQK @ self.V
         ############################### EDIT HERE ######################################
         
         #following is old code
@@ -202,8 +202,10 @@ if __name__ == "__main__":
     
     model.backward(output)
     
-    plt.xticks(np.arange(10), np.arange(7))
-    plt.yticks(np.arange(10), np.arange(5))
+    """
+    plt.xticks(np.arange(7), np.arange(7))
+    plt.yticks(np.arange(5), np.arange(5))
     plt.imshow(att_map[0], cmap='viridis', interpolation='nearest')
     plt.colorbar()  # 컬러바 추가
     plt.show()
+    """
