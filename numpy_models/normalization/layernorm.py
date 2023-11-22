@@ -7,23 +7,24 @@ class Layer_Normalization_np:
     
     def forward(self, x:np.array, train:bool=True):
         #x.shape = [# of batch, num_features1, num_features2, ...]
-        self.x = x
+        original_shape = x.shape
         self.num_batch = x.shape[0] # [# of batch]
-        
+        x = x.reshape(self.num_batch,-1) #flatten, [# of batch, -1]
+        self.x = x
         ################################ edit here #######################################
         #each features mu and var
         self.feature_mu  = None  # [# of batch, 1]
         self.feature_var =  None  # [# of batch, 1]
 
-        #print(self.batch_mu.shape) #[# of batch, 1]
-        
-        
-        
-        
-        self.standard_x = None
+        self.feature_var = None
+        self.feature_std = None
+        self.x_minus_mean = None # [# of batch, # of feat] - [# of batch, 1] (broadcast)
+        self.standard_x = None #[# of batch, # of feat]
+
+        output = None #restore flatten d_prev
         ##################################################################################
 
-        return self.standard_x #no dimension change(mayebe?)
+        return output #no dimension change(mayebe?)
         
     def backward(self, d_prev):
         #d_prev.shape = [# of batch, feat1, feat2, ...]
