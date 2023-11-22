@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import os
+import matplotlib.pyplot as plt
 
 ############## this block is just for import moudles ######
 current_path = os.path.dirname(os.path.realpath(__file__))
@@ -84,9 +85,12 @@ class Attention_np:
         #Q = [# of batch, query dim, embed dim]
         #K = [# of batch, value dim, embed dim]
         #V = [# of batch, value dim, embed dim]
-        self.Q = np.dot(x_q,self.params['W_Q']) + self.params['b_Q']
-        self.K = np.dot(x_k,self.params['W_K']) + self.params['b_K']
-        self.V = np.dot(x_v,self.params['W_V']) + self.params['b_V']
+        
+        ############################### EDIT HERE ######################################
+        self.Q = None
+        self.K = None
+        self.V = None
+        ############################### EDIT HERE ######################################
 
         #Q@K = [# of batch, query dim, value dim]
         #softmax(Q@K) = [# of batch, query dim, value dim]
@@ -94,9 +98,11 @@ class Attention_np:
         
         """Actual computation of forward pass"""
         scale = 1 / np.sqrt(self.Q.shape[-1]) if self.scale else 1
-        self.QK = self.Q @ self.K.swapaxes(-2, -1) * scale  # attention scores
-        self.softQK = self.softmax.forward(self.QK)  # attention weights
-        self.VsoftQK = self.softQK @ self.V
+        ############################### EDIT HERE ######################################
+        self.QK = None  # attention scores
+        self.softQK = None
+        self.VsoftQK = None
+        ############################### EDIT HERE ######################################
         
         #following is old code
         #self.QK = np.matmul(self.Q, np.transpose(self.K, (0, 2, 1)))
@@ -190,7 +196,13 @@ if __name__ == "__main__":
     q = np.random.randn(3,5,10)
     kv = np.random.randn(3,7,20)
     
-    output = model(q,kv,kv)
+    output, att_map = model(q,kv,kv)
     print(output.shape)
     
     model.backward(output)
+    
+    plt.xticks(np.arange(10), np.arange(7))
+    plt.yticks(np.arange(10), np.arange(5))
+    plt.imshow(att_map[0], cmap='viridis', interpolation='nearest')
+    plt.colorbar()  # 컬러바 추가
+    plt.show()
