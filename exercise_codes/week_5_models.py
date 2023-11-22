@@ -96,9 +96,16 @@ class model_with_batch_norm():
         
         ############### edit here #####################
         #make forward pass using above 
+        x = self.linear_1(x)
+        x = self.norm1(x)
+        x = self.activation_1(x)
 
-
-
+        x = self.linear_2(x)
+        x = self.norm2(x)
+        x = self.activation_2(x)
+        
+        x = self.linear_3(x)
+        x = self.sigmoid(x)
 
         ###############################################
         
@@ -112,9 +119,18 @@ class model_with_batch_norm():
         d_prev = 1
         ############### edit here #####################
         #make backward pass using above 
+        d_prev = self.criterion.backward(d_prev)
 
+        d_prev = self.sigmoid.backward(d_prev)
+        d_prev = self.linear_3.backward(d_prev)
 
-
+        d_prev = self.activation_2.backward(d_prev)
+        d_prev = self.norm2.backward(d_prev)
+        d_prev = self.linear_2.backward(d_prev)
+        
+        d_prev = self.activation_1.backward(d_prev)
+        d_prev = self.norm1.backward(d_prev)
+        d_prev = self.linear_1.backward(d_prev)
 
         ###############################################
     

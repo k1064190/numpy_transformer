@@ -43,10 +43,14 @@ class Batch_Normalization_1D_np:
         #x.shape = [# of batch, num_features]
         self.num_batch = x.shape[0] # [# of batch]
         
+        #[# of batch, num feature]
+        #layer_mu = [# of batch, 1]
+        #batch_mu [# of feature]
+        
         ################################## edit here ###############################
         if train:
-            self.batch_mu  = None  # [# of feat]
-            self.batch_var =  None # [# of feat]
+            self.batch_mu  = np.mean(x,axis=0)  # [# of feat]
+            self.batch_var =  np.var(x,axis=0) # [# of feat]
             self.save_train_mu_var()
         else:
             self.batch_mu = self.running_batch_mu
@@ -55,8 +59,12 @@ class Batch_Normalization_1D_np:
         #calculate batch_var/std
         #calaulate std_x
         #calculate output == [# of batch, # of feature]
+        self.batch_var += self.eps
+        self.batch_std = np.sqrt(self.batch_var)
+        self.x_minus_mean = x - self.batch_mu # [# of batch, # of feature]
+        self.standard_x = self.x_minus_mean / self.batch_std
         ##########################################################################
-        return self.output
+        return self.standard_x
         
     def backward(self, d_prev):
         standard_grad = d_prev * self.params['W'] #[1, # of feature]
@@ -86,8 +94,8 @@ if __name__=="__main__":
     model = Batch_Normalization_1D_np(50)
     x = np.random.rand(10,50) * 5
     y = model.forward(x)
-    print(np.mean(y[0]), np.var(y[0])) #not
     print(np.mean(y[:,0]), np.var(y[:,0])) # N(0,1)
+    print(np.mean(y[0]), np.var(y[0])) #not
     print(y.shape)
     d_y = model.backward(y)
     print(d_y.shape)
