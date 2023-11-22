@@ -46,8 +46,8 @@ class Attention_np:
         self.params = dict()
         self.grads = dict()
         
-        self.scale = scale
-        self.softmax = softmax_np()
+        self.scale = scale # divide by sqrt(atten_dim)
+        self.softmax = softmax_np() 
         
         self.q_dim = query_embed_dim
         self.k_dim = key_embed_dim
@@ -78,18 +78,19 @@ class Attention_np:
         
         return: [# of batch, query dim, embed dim]
         """
+        #W_Q = [embed dim_xq, embed dim]
         self.x_q = x_q
         self.x_k = x_k
         self.x_v = x_v
 
         #Q = [# of batch, query dim, embed dim]
-        #K = [# of batch, value dim, embed dim]
+        #K = [# of batch, value dim, embed dim] -> #K = [# of batch, embed dim, value dim]
         #V = [# of batch, value dim, embed dim]
         
         ############################### EDIT HERE ######################################
-        self.Q = None
-        self.K = None
-        self.V = None
+        self.Q = np.dot(self.x_q, self.params['W_Q']) + self.params['b_Q']
+        self.K = np.dot(self.x_k, self.params['W_K']) + self.params['b_K']
+        self.V = np.dot(self.x_v, self.params['W_V']) + self.params['b_V']
         ############################### EDIT HERE ######################################
 
         #Q@K = [# of batch, query dim, value dim]
@@ -99,9 +100,9 @@ class Attention_np:
         """Actual computation of forward pass"""
         scale = 1 / np.sqrt(self.Q.shape[-1]) if self.scale else 1
         ############################### EDIT HERE ######################################
-        self.QK = None  # attention scores
-        self.softQK = None
-        self.VsoftQK = None
+        self.QK = self.Q.swapaxes(-2,-1) @ self.K  # attention scores
+        self.softQK = self.softmax.forward(self.QK)
+        self.VsoftQK = self.V @ self.softQK
         ############################### EDIT HERE ######################################
         
         #following is old code
