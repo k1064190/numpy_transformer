@@ -41,11 +41,13 @@ class Attention_np:
                  key_embed_dim:int, 
                  value_embed_dim:int, 
                  attention_embed_dim:int = 256,
-                 scale = True
+                 scale = True,
+                 is_mask:bool = False
                  ) -> None:
         self.params = dict()
         self.grads = dict()
         
+        self.is_mask = is_mask
         self.scale = scale # divide by sqrt(atten_dim)
         self.softmax = softmax_np() 
         
@@ -100,7 +102,12 @@ class Attention_np:
         """Actual computation of forward pass"""
         scale = 1 / np.sqrt(self.Q.shape[-1]) if self.scale else 1
         ############################### EDIT HERE ######################################
-        self.QK = self.Q @ self.K.swapaxes(-2, -1) * scale  # attention scores
+        #Q@K = [# of batch, query dim, value dim]
+        #[query dim , value dim]
+        mask = np.ones((self.Q.shape[-2],self.V.shape[-2]))
+        mask = ( np.triu(mask,1) * -1000000) if self.is_mask else np.zeros_like(mask)
+        
+        self.QK = self.Q @ self.K.swapaxes(-2, -1) * scale + mask  # attention scores
         self.softQK = self.softmax.forward(self.QK)
         self.VsoftQK = self.softQK @ self.V
         ############################### EDIT HERE ######################################
@@ -193,19 +200,18 @@ class Attention_np:
 
 #test forward/backward dimension
 if __name__ == "__main__":
-    model = Attention_np(10,20,20,40)
-    q = np.random.randn(3,5,10)
-    kv = np.random.randn(3,7,20)
+    model = Attention_np(10,10,10,40, is_mask=True)
+    q = np.random.randn(3,7,10)
+    kv = np.random.randn(3,7,10)
     
     output, att_map = model(q,kv,kv)
     print(output.shape)
     
     model.backward(output)
     
-    """
+    
     plt.xticks(np.arange(7), np.arange(7))
-    plt.yticks(np.arange(5), np.arange(5))
+    plt.yticks(np.arange(7), np.arange(7))
     plt.imshow(att_map[0], cmap='viridis', interpolation='nearest')
     plt.colorbar()  # 컬러바 추가
     plt.show()
-    """
